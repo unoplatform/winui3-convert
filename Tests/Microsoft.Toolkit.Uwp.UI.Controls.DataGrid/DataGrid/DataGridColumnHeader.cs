@@ -313,7 +313,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 
             if (this.OwningGrid.CommitEdit(DataGridEditingUnit.Row, true /*exitEditingMode*/))
             {
-                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { ProcessSort(); }).AsTask();
+                DispatcherQueue.TryEnqueue(System.DispatcherQueuePriority.Normal, () => { ProcessSort(); });
             }
         }
 
@@ -608,7 +608,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 return;
             }
 
-            PointerPoint pointerPoint = e.GetCurrentPoint(this);
+            var pointerPoint = e.GetCurrentPoint(this);
             DataGridColumnHeaderInteractionInfo interactionInfo = this.OwningGrid.ColumnHeaderInteractionInfo;
 
             if (e.Pointer.PointerDeviceType == PointerDeviceType.Mouse && !pointerPoint.Properties.IsLeftButtonPressed)
@@ -684,7 +684,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 return;
             }
 
-            PointerPoint pointerPoint = e.GetCurrentPoint(this);
+            var pointerPoint = e.GetCurrentPoint(this);
 
             if (e.Pointer.PointerDeviceType == PointerDeviceType.Mouse && pointerPoint.Properties.IsLeftButtonPressed)
             {
@@ -766,7 +766,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 return;
             }
 
-            PointerPoint pointerPoint = e.GetCurrentPoint(this);
+            var pointerPoint = e.GetCurrentPoint(this);
             Point pointerPosition = pointerPoint.Position;
             DataGridColumnHeaderInteractionInfo interactionInfo = this.OwningGrid.ColumnHeaderInteractionInfo;
 
@@ -1066,7 +1066,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
             {
                 Debug.Assert(interactionInfo.OriginalCursor != null, "Expected non-null interactionInfo.OriginalCursor.");
 
-                Window.Current.CoreWindow.PointerCursor = interactionInfo.OriginalCursor;
+                CoreWindow.GetForCurrentThread().PointerCursor = interactionInfo.OriginalCursor;
+
                 interactionInfo.ResizePointerId = 0;
             }
         }
@@ -1100,11 +1101,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 
             if (this.OwningGrid.IsEnabled && (nearCurrentResizableColumnRightEdge || nearPreviousResizableColumnLeftEdge))
             {
-                if (Window.Current.CoreWindow.PointerCursor != null && Window.Current.CoreWindow.PointerCursor.Type != CoreCursorType.SizeWestEast)
+                CoreCursor currentCursor = CoreWindow.GetForCurrentThread().PointerCursor;
+                if (currentCursor != null && currentCursor.Type != CoreCursorType.SizeWestEast)
                 {
-                    interactionInfo.OriginalCursor = Window.Current.CoreWindow.PointerCursor;
+                    interactionInfo.OriginalCursor = currentCursor;
                     interactionInfo.ResizePointerId = pointer.PointerId;
-                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
+                    CoreWindow.GetForCurrentThread().PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
                 }
             }
             else if (interactionInfo.ResizePointerId == pointer.PointerId)

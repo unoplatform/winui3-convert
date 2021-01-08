@@ -29,38 +29,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         public virtual event EventHandler<object> CurrentChanged;
 
         /// <summary>
-        /// CollectionChanged event (per <see cref="INotifyCollectionChanged" />).
-        /// </summary>
-        event NotifyCollectionChangedEventHandler INotifyCollectionChanged.CollectionChanged
-        {
-            add
-            {
-                CollectionChanged += value;
-            }
-
-            remove
-            {
-                CollectionChanged -= value;
-            }
-        }
-
-        /// <summary>
-        /// PropertyChanged event (per <see cref="System.ComponentModel.INotifyPropertyChanged" />).
-        /// </summary>
-        event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
-        {
-            add
-            {
-                PropertyChanged += value;
-            }
-
-            remove
-            {
-                PropertyChanged -= value;
-            }
-        }
-
-        /// <summary>
         /// Unused VectorChanged event from the ICollectionView interface.
         /// </summary>
         event VectorChangedEventHandler<object> IObservableVector<object>.VectorChanged
@@ -643,7 +611,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         /// <summary>
         /// Raise this event when the (filtered) view changes
         /// </summary>
-        protected virtual event NotifyCollectionChangedEventHandler CollectionChanged;
+        public virtual event NotifyCollectionChangedEventHandler CollectionChanged;
 
         /// <summary>
         /// Raises a PropertyChanged event (per <see cref="System.ComponentModel.INotifyPropertyChanged" />).
@@ -656,7 +624,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         /// <summary>
         /// PropertyChanged event (per <see cref="System.ComponentModel.INotifyPropertyChanged" />).
         /// </summary>
-        protected virtual event PropertyChangedEventHandler PropertyChanged;
+        public virtual event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Re-create the view, using any SortDescriptions and/or Filter.
