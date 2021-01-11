@@ -13,7 +13,7 @@ namespace Uno.WinUI3Convert
     {
         static Task<int> Main(string[] args)
         {
-            var command = new RootCommand("Migrate UWP projects to WinUI")
+            var command = new RootCommand("Migrate UWP projects to WinUI 3")
             {
                 new Argument<DirectoryInfo>("source", "Source directory")
                 {

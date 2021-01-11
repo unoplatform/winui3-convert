@@ -1,0 +1,24 @@
+<Project>
+  <PropertyGroup>
+    <Authors>nventive</Authors>
+    <Copyright>Copyright (C) 2020-$([System.DateTime]::Now.ToString(`yyyy`)) nventive inc. - all rights reserved</Copyright>
+    <PackageIcon>uno-logo.png</PackageIcon>
+    <PackageProjectUrl>https://github.com/unoplatform/winui3-convert</PackageProjectUrl>
+    <RepositoryUrl>$(BUILD_REPOSITORY_URI)</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)..\build\uno-logo.png" Pack="true" Visible="false" PackagePath="\"/>
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(SourceLinkEnabled)' != 'false'">
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+  </PropertyGroup>
+  
+  <ItemGroup Condition="'$(SourceLinkEnabled)' != 'false'">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
+  </ItemGroup>
+  
+</Project>
